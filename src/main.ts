@@ -2,8 +2,8 @@ import 'dotenv/config';
 import express, { json } from 'express';
 import { requestInfoLogger, log } from './middleware/logger';
 import { internalServerError } from './middleware/internal-server-error';
-import { PORT } from './common/environment';
-import userRouter from './route/user';
+import { config } from './common/config';
+import authRouter from './route/auth';
 
 const main = () => {
   const app = express();
@@ -13,12 +13,12 @@ const main = () => {
   app.use(requestInfoLogger);
 
   // routes
-  app.use('/users', userRouter);
+  app.use('/users', authRouter);
 
   app.use(internalServerError('Bai, ceva a mers prost tare'));
 
-  app.listen(PORT);
-  log(`Application started on port ${PORT}`);
+  app.listen(config.PORT);
+  log(`Application started on port ${config.PORT}`);
 };
 
 main();
