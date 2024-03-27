@@ -1,6 +1,23 @@
-import express from "express";
-import { ZodError, z } from "zod";
+import express, { Request, Response } from 'express';
 
-const userRouter = express.Router();
+const router = express.Router();
 
-export default userRouter;
+function* userId() {
+  let id = 0;
+  while (true) {
+    yield id;
+    id++;
+  }
+}
+
+const users = [
+  { id: userId().next().value, name: 'Johnny', age: 20 },
+  { id: userId().next().value, name: 'Doe', age: 24 },
+  { id: userId().next().value, name: 'Daniel', age: 36 },
+];
+
+router.get('/', (req: Request, res: Response): void => {
+  res.send(users);
+});
+
+export default router;
