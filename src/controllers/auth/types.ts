@@ -1,4 +1,4 @@
-export type CreateUserDto = {
+export type RegisterDto = {
   username: string;
   password: string;
   firstName: string;

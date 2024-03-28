@@ -5,10 +5,10 @@ import { internalServerError } from './middleware/internal-server-error';
 import { httpClientError } from './middleware/http-client-error';
 import { config } from './common/config';
 import { AuthController } from './controllers/auth/auth';
-import { DumbUserService } from './services/user/dumb-user-service';
+import { InMemoryUserService } from './services/user/inmemory-user-service';
 
 const main = () => {
-  const userService = new DumbUserService();
+  const userService = new InMemoryUserService();
   const authController = new AuthController(userService);
 
   const app = express();
