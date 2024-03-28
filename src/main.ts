@@ -3,9 +3,13 @@ import express, { json } from 'express';
 import { requestInfoLogger, log } from './middleware/logger';
 import { internalServerError } from './middleware/internal-server-error';
 import { config } from './common/config';
-import authRouter from './route/auth';
+import { AuthController } from './controllers/auth/auth';
+import { DumbUserService } from './services/user/dumb-user-service';
 
 const main = () => {
+  const userService = new DumbUserService();
+  const authController = new AuthController(userService);
+
   const app = express();
 
   // middleware
@@ -13,9 +17,9 @@ const main = () => {
   app.use(requestInfoLogger);
 
   // routes
-  app.use('/users', authRouter);
+  app.use('/users', authController.router);
 
-  app.use(internalServerError('Bai, ceva a mers prost tare'));
+  app.use(internalServerError('Custom Internal Server Error'));
 
   app.listen(config.PORT);
   log(`Application started on port ${config.PORT}`);
