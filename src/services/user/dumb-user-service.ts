@@ -21,6 +21,15 @@ export class DumbUserService implements IUserService {
     return user;
   }
 
+  validateUser(username: string, password: string): Promise<User | undefined> {
+    return new Promise((resolve) => {
+      const user = this.users.find((user) => user.username === username);
+      if (!user) return resolve(undefined);
+      if (user.password !== password) return resolve(undefined);
+      return resolve(user);
+    });
+  }
+
   getAllUsers(): User[] {
     return this.users;
   }

@@ -1,5 +1,18 @@
 import { Schema } from 'express-validator';
 
+export const loginUserSchema: Schema = {
+  username: {
+    notEmpty: true,
+    isString: true,
+    errorMessage: 'username cannot be empty',
+  },
+  password: {
+    notEmpty: true,
+    isString: true,
+    errorMessage: 'password cannot be empty',
+  },
+};
+
 export const createUserSchema: Schema = {
   username: {
     isEmail: true,

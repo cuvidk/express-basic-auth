@@ -5,3 +5,8 @@ export type CreateUserDto = {
   lastName: string;
   age: number;
 };
+
+export type LoginDto = {
+  username: string;
+  password: string;
+};

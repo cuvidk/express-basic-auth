@@ -5,5 +5,6 @@ export enum Stage {
 
 export enum HttpClientErrorCode {
   BadRequest = 400,
+  Unauthorized = 401,
   NotFound = 404,
 }

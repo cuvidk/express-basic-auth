@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { Schema, Location, checkSchema, validationResult } from 'express-validator';
-import { HttpBadRequestError } from '../common/exceptions/bad-request-error';
+import { HttpBadRequestError } from '../common/exceptions/http-bad-request-error';
 
 export const validateRequest = (schema: Schema, defaultLocations?: Location[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
@@ -15,9 +15,9 @@ export const validateRequest = (schema: Schema, defaultLocations?: Location[]) =
     next(
       new HttpBadRequestError(
         `Validation error: ${error
-          .array()
+          .array({ onlyFirstError: true })
           .map((e) => e.msg)
-          .join(',')}`
+          .join(', ')}`
       )
     );
   };

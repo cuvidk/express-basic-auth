@@ -27,6 +27,7 @@ export type CreateUserIn = {
 
 export interface IUserService {
   createUser(params: CreateUserIn): User | undefined;
+  validateUser(username: string, password: string): Promise<User | undefined>;
   // getUser(id: string): User | undefined;
   getAllUsers(): User[];
 }

@@ -18,7 +18,7 @@ const main = () => {
   app.use(requestInfoLogger);
 
   // routes
-  app.use('/users', authController.router);
+  app.use('/auth', authController.router);
 
   app.use(httpClientError);
   app.use(internalServerError('Custom Internal Server Error'));

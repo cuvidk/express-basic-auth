@@ -31,6 +31,6 @@ export const buildApiResponse = (params: BuildApiResponseParams): ApiResponse =>
   return {
     ...paramsWithoutError,
     statusCode: params.statusCode || 200,
-    message: params.message || 'Ok',
+    message: params.message || 'Success',
   };
 };
