@@ -3,7 +3,7 @@ export enum Stage {
   PRODUCTION = 'prod',
 }
 
-export enum HttpStatusCode {
+export enum HttpClientErrorCode {
   BadRequest = 400,
   NotFound = 404,
 }

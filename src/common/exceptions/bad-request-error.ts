@@ -1,8 +1,8 @@
-import { HttpStatusCode } from '../types';
-import { HttpError } from './http-error';
+import { HttpClientErrorCode } from '../types';
+import { HttpClientError } from './http-client-error';
 
-export class HttpBadRequestError extends HttpError {
+export class HttpBadRequestError extends HttpClientError {
   constructor(message: string) {
-    super(HttpStatusCode.BadRequest, message);
+    super(HttpClientErrorCode.BadRequest, message);
   }
 }

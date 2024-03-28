@@ -5,16 +5,20 @@ import { HttpBadRequestError } from '../common/exceptions/bad-request-error';
 export const validateRequest = (schema: Schema, defaultLocations?: Location[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     await checkSchema(schema, defaultLocations).run(req);
-    const result = validationResult(req);
+    const error = validationResult(req);
 
     // validation passed
-    if (result.isEmpty()) return next();
+    if (error.isEmpty()) return next();
 
-    throw new HttpBadRequestError(
-      `Validation failed: ${result
-        .array()
-        .map((e) => e.msg)
-        .join(',')}`
+    // throwing this will result in express not
+    // handling the error because the function is async
+    next(
+      new HttpBadRequestError(
+        `Validation error: ${error
+          .array()
+          .map((e) => e.msg)
+          .join(',')}`
+      )
     );
   };
 };

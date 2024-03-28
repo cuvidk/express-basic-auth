@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express, { json } from 'express';
 import { requestInfoLogger, log } from './middleware/logger';
 import { internalServerError } from './middleware/internal-server-error';
+import { httpClientError } from './middleware/http-client-error';
 import { config } from './common/config';
 import { AuthController } from './controllers/auth/auth';
 import { DumbUserService } from './services/user/dumb-user-service';
@@ -19,6 +20,7 @@ const main = () => {
   // routes
   app.use('/users', authController.router);
 
+  app.use(httpClientError);
   app.use(internalServerError('Custom Internal Server Error'));
 
   app.listen(config.PORT);
