@@ -5,10 +5,10 @@ import { internalServerError } from './middleware/internal-server-error';
 import { httpClientError } from './middleware/http-client-error';
 import { config } from './common/config';
 import { AuthController } from './controllers/auth/auth';
-import { InMemoryUserService } from './services/user/inmemory-user-service';
+import { SqliteUserService } from './services/user/sqlite-user-service';
 
-const main = () => {
-  const userService = new InMemoryUserService();
+const main = async () => {
+  const userService = await SqliteUserService.instance();
   const authController = new AuthController(userService);
 
   const app = express();
