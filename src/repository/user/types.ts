@@ -6,17 +6,14 @@ export type User = {
   age: number;
 };
 
-export type PartialUser = Partial<User>;
-
-export type GetUserSelect = {
-  [K in keyof User]?: boolean;
+export type Filter<T> = Partial<T>;
+export type Selector<T> = {
+  [K in keyof T]?: boolean;
 };
 
-export type GetUserFilter = PartialUser;
-
 export type GetUserParams = {
-  select?: GetUserSelect;
-  filter: GetUserFilter;
+  select?: Selector<User>;
+  filter: Filter<User>;
 };
 
 export type AddUserParams = {
@@ -28,6 +25,6 @@ export type AddUserParams = {
 };
 
 export interface IUserRepository {
-  getUser<U extends PartialUser>(params: GetUserParams): Promise<U | undefined>;
+  getUser<U extends Partial<User>>(params: GetUserParams): Promise<U | undefined>;
   addUser(params: AddUserParams): Promise<User | undefined>;
 }

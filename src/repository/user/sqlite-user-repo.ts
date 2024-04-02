@@ -1,9 +1,7 @@
 import { Database, Statement, open as openDatabase } from 'sqlite';
 import sqlite3 from 'sqlite3';
-import { AddUserParams, GetUserFilter, GetUserParams, GetUserSelect, IUserRepository, User } from './types';
+import { AddUserParams, GetUserParams, IUserRepository, User } from './types';
 import { config } from '../../common/config';
-
-type x = keyof User;
 
 export class SqliteUserRepo implements IUserRepository {
   private static _instance: SqliteUserRepo | undefined = undefined;
@@ -45,6 +43,7 @@ export class SqliteUserRepo implements IUserRepository {
 
     const query = `SELECT ${selectorStr} FROM Users WHERE ${filterStr}`;
     console.log(`SQL QUERY: ${query}`);
+
     const stmt = await this._database.prepare(query, placeholders);
 
     return stmt.get<U>();
