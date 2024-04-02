@@ -2,6 +2,7 @@ import { Database, Statement, open as openDatabase } from 'sqlite';
 import sqlite3 from 'sqlite3';
 import { AddUserParams, GetUserParams, IUserRepository, User } from './types';
 import { config } from '../../common/config';
+import { translateObjToSqlPlacehoderMap } from '../common/sql';
 
 export class SqliteUserRepo implements IUserRepository {
   private static _instance: SqliteUserRepo | undefined = undefined;
@@ -33,23 +34,27 @@ export class SqliteUserRepo implements IUserRepository {
     if (!filters.length) return;
     const filterStr = filters.map((f) => `${f} = :${f}`).join(',');
 
-    const placeholders = filters.reduce((acc, crtFilter) => {
-      const placeholderName = `:${crtFilter}`;
-      return {
-        ...acc,
-        [placeholderName]: params.filter[crtFilter as keyof User],
-      };
-    }, {});
+    const placeholderMap = translateObjToSqlPlacehoderMap(params.filter);
 
     const query = `SELECT ${selectorStr} FROM Users WHERE ${filterStr}`;
     console.log(`SQL QUERY: ${query}`);
 
-    const stmt = await this._database.prepare(query, placeholders);
+    const stmt = await this._database.prepare(query, placeholderMap);
 
     return stmt.get<U>();
   }
 
-  addUser(params: AddUserParams): Promise<User | undefined> {
-    throw new Error('Method not implemented.');
+  async addUser(params: AddUserParams): Promise<User | undefined> {
+    const existingUser = await this.getUser({ select: { username: true }, filter: { username: params.username } });
+    if (existingUser) return;
+
+    const query =
+      'INSERT INTO Users (username, password, firstName, lastName, age) VALUES (:username, :password, :firstName, :lastName, :age) RETURNING *';
+    console.log(`SQL QUERY: ${query}`);
+
+    const placeholderMap = translateObjToSqlPlacehoderMap(params);
+    const stmt = await this._database.prepare(query, placeholderMap);
+
+    return stmt.get<User>();
   }
 }
