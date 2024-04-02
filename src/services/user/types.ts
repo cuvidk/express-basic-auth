@@ -1,12 +1,3 @@
-export type User = {
-  id: number;
-  username: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  age: number;
-};
-
 export type CreateUserIn = {
   username: string;
   password: string;
