@@ -4,6 +4,7 @@ export const loginUserSchema: Schema = {
   username: {
     notEmpty: true,
     isString: true,
+    normalizeEmail: true,
     errorMessage: 'username cannot be empty',
   },
   password: {
@@ -16,6 +17,7 @@ export const loginUserSchema: Schema = {
 export const createUserSchema: Schema = {
   username: {
     isEmail: true,
+    normalizeEmail: true,
     errorMessage: 'username needs to be an email',
   },
   password: {
@@ -37,6 +39,7 @@ export const createUserSchema: Schema = {
       },
       errorMessage: `firstName length has to be > 2`,
     },
+    escape: true,
   },
   lastName: {
     isLength: {
@@ -45,9 +48,11 @@ export const createUserSchema: Schema = {
       },
       errorMessage: `lastName length has to be > 2`,
     },
+    escape: true,
   },
   age: {
     isNumeric: true,
     errorMessage: 'age has to be a number',
+    escape: true,
   },
 };
