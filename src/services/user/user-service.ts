@@ -13,7 +13,7 @@ export class UserService implements IUserService {
     });
   }
 
-  async validateUser(username: string, password: string): Promise<User | undefined> {
+  async loginUser(username: string, password: string): Promise<User | undefined> {
     const user = await this._repo.getUser<User>({ filter: { username } });
 
     if (!user) return;

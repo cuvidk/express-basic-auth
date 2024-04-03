@@ -18,7 +18,7 @@ export class AuthController {
   private login = async (req: Request, res: Response, next: NextFunction) => {
     const { username, password }: LoginDto = req.body;
 
-    const user = await this._userService.validateUser(username, password);
+    const user = await this._userService.loginUser(username, password);
     if (!user) return next(new HttpUnauthorizedError('Wrong username or password'));
 
     const { password: pass, ...userWithoutPassword } = user;

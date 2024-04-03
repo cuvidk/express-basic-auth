@@ -25,8 +25,7 @@ const main = async () => {
   app.use(httpClientError);
   app.use(internalServerError('Custom Internal Server Error'));
 
-  app.listen(config.PORT);
-  log(`Application started on port ${config.PORT}`);
+  app.listen(config.PORT, () => log(`Application started on port ${config.PORT}`));
 };
 
 main();
