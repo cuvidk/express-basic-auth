@@ -6,6 +6,7 @@ import { createUserSchema, loginUserSchema } from './schema';
 import { LoginDto, RegisterDto } from './types';
 import { HttpUnauthorizedError, HttpConflictError } from '../../common/exceptions';
 import { HttpSuccessCode } from '../../common/types';
+import { AuthenticatedRequest, verifyAuth } from '../../middleware/verify-auth';
 
 export class AuthController {
   private _router = express.Router();
@@ -13,16 +14,16 @@ export class AuthController {
   constructor(private _userService: IUserService) {
     this._router.post('/register', validateRequest(createUserSchema, ['body']), this.register);
     this._router.post('/login', validateRequest(loginUserSchema, ['body']), this.login);
+    this._router.get('/onlyloggedin', verifyAuth, this.authenticatedRoute);
   }
 
   private login = async (req: Request, res: Response, next: NextFunction) => {
     const { username, password }: LoginDto = req.body;
 
-    const user = await this._userService.loginUser(username, password);
-    if (!user) return next(new HttpUnauthorizedError('Wrong username or password'));
+    const token = await this._userService.loginUser(username, password);
+    if (!token) return next(new HttpUnauthorizedError('Wrong username or password'));
 
-    const { password: pass, ...userWithoutPassword } = user;
-    res.send(buildApiResponse({ user: userWithoutPassword }));
+    res.send(buildApiResponse({ token }));
   };
 
   private register = async (req: Request, res: Response, next: NextFunction) => {
@@ -33,6 +34,11 @@ export class AuthController {
 
     const { password: pass, ...userWithoutPassword } = user;
     res.send(buildApiResponse({ statusCode: HttpSuccessCode.Created, user: userWithoutPassword }));
+  };
+
+  private authenticatedRoute = async (req: Request, res: Response, next: NextFunction) => {
+    const authReq = req as AuthenticatedRequest;
+    res.status(200).json({ success: `You successfully accessed an auth protected route as ${authReq.user.username!}` });
   };
 
   public get router(): Router {

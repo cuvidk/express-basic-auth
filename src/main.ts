@@ -1,9 +1,10 @@
 import 'dotenv/config';
+import { config } from './common/config';
 import express, { json } from 'express';
+import cookieParser from 'cookie-parser';
 import { requestInfoLogger, log } from './middleware/logger';
 import { internalServerError } from './middleware/internal-server-error';
 import { httpClientError } from './middleware/http-client-error';
-import { config } from './common/config';
 import { AuthController } from './controllers/auth/auth';
 import { UserService } from './services/user/user-service';
 import { SqliteUserRepo } from './repository/user/sqlite-user-repo';
@@ -17,6 +18,7 @@ const main = async () => {
 
   // middleware
   app.use(json());
+  app.use(cookieParser());
   app.use(requestInfoLogger);
 
   // routes

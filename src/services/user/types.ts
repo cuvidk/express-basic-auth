@@ -8,9 +8,11 @@ export type CreateUserIn = {
   age: number;
 };
 
+export type AuthToken = string;
+
 export interface IUserService {
   createUser(params: CreateUserIn): Promise<User | undefined>;
-  loginUser(username: string, password: string): Promise<User | undefined>;
+  loginUser(username: string, password: string): Promise<AuthToken | undefined>;
   // getUser(id: string): User | undefined;
   // getAllUsers(): User[];
 }
