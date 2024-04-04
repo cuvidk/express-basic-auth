@@ -1,4 +1,4 @@
-import { HttpClientErrorCode } from '../types';
+import { HttpClientErrorCode } from '../../types/types';
 
 export class HttpClientError extends Error {
   constructor(private _statusCode: HttpClientErrorCode, message: string) {

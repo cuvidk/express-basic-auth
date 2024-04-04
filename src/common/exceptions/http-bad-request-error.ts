@@ -1,4 +1,4 @@
-import { HttpClientErrorCode } from '../types';
+import { HttpClientErrorCode } from '../../types/types';
 import { HttpClientError } from './http-client-error';
 
 export class HttpBadRequestError extends HttpClientError {

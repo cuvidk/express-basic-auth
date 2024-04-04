@@ -1,5 +1,5 @@
 import { config } from './config';
-import { Stage } from './types';
+import { Stage } from '../types/types';
 
 type BuildApiResponseParams = {
   statusCode?: number;

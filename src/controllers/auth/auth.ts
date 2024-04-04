@@ -5,8 +5,8 @@ import { validateRequest } from '../../middleware/validate-request';
 import { createUserSchema, loginUserSchema } from './schema';
 import { LoginDto, RegisterDto } from './types';
 import { HttpUnauthorizedError, HttpConflictError } from '../../common/exceptions';
-import { HttpSuccessCode } from '../../common/types';
-import { AuthenticatedRequest, verifyAuth } from '../../middleware/verify-auth';
+import { HttpSuccessCode } from '../../types/types';
+import { verifyAuth } from '../../middleware/verify-auth';
 
 export class AuthController {
   private _router = express.Router();
@@ -37,8 +37,7 @@ export class AuthController {
   };
 
   private authenticatedRoute = async (req: Request, res: Response, next: NextFunction) => {
-    const authReq = req as AuthenticatedRequest;
-    res.status(200).json({ success: `You successfully accessed an auth protected route as ${authReq.user.username!}` });
+    res.status(200).json({ success: `You successfully accessed an auth protected route as ${req.user?.username}` });
   };
 
   public get router(): Router {

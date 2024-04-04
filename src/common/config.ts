@@ -1,4 +1,4 @@
-import { Stage } from './types';
+import { Stage } from '../types/types';
 
 export const config = {
   PORT: process.env.PORT || 3124,
