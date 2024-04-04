@@ -1,4 +1,4 @@
-import { Database, Statement, open as openDatabase } from 'sqlite';
+import { Database, open as openDatabase } from 'sqlite';
 import sqlite3 from 'sqlite3';
 import { AddUserParams, GetUserParams, IUserRepository, User } from './types';
 import { config } from '../../common/config';

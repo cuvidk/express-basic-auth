@@ -5,6 +5,7 @@ import { HttpUnauthorizedError } from '../common/exceptions';
 import { User } from '../repository/user/types';
 import { log } from './logger';
 
+// TODO: move this out of here
 export interface AuthenticatedRequest extends Request {
   user: Partial<User>;
 }
@@ -16,6 +17,7 @@ export function verifyAuth(req: Request, res: Response, next: NextFunction) {
 
     // TODO: Verify issuing time and reject if too old
 
+    // TODO: I don't like this way of circumventing TS. Is there any other way to pass along this data
     (req as AuthenticatedRequest).user = decoded.user;
     next();
   } catch (err) {
